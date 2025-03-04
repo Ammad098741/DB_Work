@@ -1,0 +1,213 @@
+Microsoft Windows [Version 10.0.19045.5487]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Acer>mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 8
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> create Database ExampleDB;
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [(none)]> use ExampleDB;
+Database changed
+MariaDB [ExampleDB]> create Table Employees(EmployeeID INT PRIMARY KET AUTO_INCREMENT,FirstName Varchar(50),LastName(50),Department Varchar(50),Salary DECIMAL(10,2),HireDate DATE);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'KET AUTO_INCREMENT,FirstName Varchar(50),LastName(50),Department Varchar(50),...' at line 1
+MariaDB [ExampleDB]> create Table Employees(EmployeeID INT PRIMARY KEY AUTO_INCREMENT,FirstName Varchar(50),LastName(50),Department Varchar(50),Salary DECIMAL(10,2),HireDate DATE);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '(50),Department Varchar(50),Salary DECIMAL(10,2),HireDate DATE)' at line 1
+MariaDB [ExampleDB]> create Table Employees(EmployeeID INT PRIMARY KEY AUTO_INCREMENT,FirstName Varchar(50),LastName Varchar(50),Department Varchar(50),Salary DECIMAL(10,2),HireDate DATE);
+Query OK, 0 rows affected (0.025 sec)
+
+MariaDB [ExampleDB]> Desc Employees;
++------------+---------------+------+-----+---------+----------------+
+| Field      | Type          | Null | Key | Default | Extra          |
++------------+---------------+------+-----+---------+----------------+
+| EmployeeID | int(11)       | NO   | PRI | NULL    | auto_increment |
+| FirstName  | varchar(50)   | YES  |     | NULL    |                |
+| LastName   | varchar(50)   | YES  |     | NULL    |                |
+| Department | varchar(50)   | YES  |     | NULL    |                |
+| Salary     | decimal(10,2) | YES  |     | NULL    |                |
+| HireDate   | date          | YES  |     | NULL    |                |
++------------+---------------+------+-----+---------+----------------+
+6 rows in set (0.031 sec)
+
+MariaDB [ExampleDB]> insert into Employees values(NULL,"Ammad","Ahmad","IT",50000.00,"2020-01-16"),(Null,"Ahmad","Shehzad","HR",60000.00,"2019-03-31"),(Null,"Wali","Khan","Finance",55000.00,"2021-04-30"),(NULL,"Moiz","Ahmad","IT",65000.00,"2018-11-05"),(NULL,"Sudais","Khan","HR",52000.00,"2022-02-10"),(NULL,"Hasnian","Khan","Finance",58000.00,"2020-09-12");
+Query OK, 6 rows affected (0.083 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+MariaDB [ExampleDB]> select * From Employees;
++------------+-----------+----------+------------+----------+------------+
+| EmployeeID | FirstName | LastName | Department | Salary   | HireDate   |
++------------+-----------+----------+------------+----------+------------+
+|          1 | Ammad     | Ahmad    | IT         | 50000.00 | 2020-01-16 |
+|          2 | Ahmad     | Shehzad  | HR         | 60000.00 | 2019-03-31 |
+|          3 | Wali      | Khan     | Finance    | 55000.00 | 2021-04-30 |
+|          4 | Moiz      | Ahmad    | IT         | 65000.00 | 2018-11-05 |
+|          5 | Sudais    | Khan     | HR         | 52000.00 | 2022-02-10 |
+|          6 | Hasnian   | Khan     | Finance    | 58000.00 | 2020-09-12 |
++------------+-----------+----------+------------+----------+------------+
+6 rows in set (0.000 sec)
+
+
+MariaDB [ExampleDB]> select Department,SUM(Salary) "Total Salary for Each Department" From Employees group by Department;
++------------+----------------------------------+
+| Department | Total Salary for Each Department |
++------------+----------------------------------+
+| Finance    |                        113000.00 |
+| HR         |                        112000.00 |
+| IT         |                        115000.00 |
++------------+----------------------------------+
+3 rows in set (0.001 sec)
+
+MariaDB [ExampleDB]> select Department,AVG(Salary) "Average Salary for Each Department" From Employees group by Department;
++------------+------------------------------------+
+| Department | Average Salary for Each Department |
++------------+------------------------------------+
+| Finance    |                       56500.000000 |
+| HR         |                       56000.000000 |
+| IT         |                       57500.000000 |
++------------+------------------------------------+
+3 rows in set (0.001 sec)
+
+MariaDB [ExampleDB]> select Department,count(*) "Total Employees in each Department" From Employees group by Department;
++------------+------------------------------------+
+| Department | Total Employees in each Department |
++------------+------------------------------------+
+| Finance    |                                  2 |
+| HR         |                                  2 |
+| IT         |                                  2 |
++------------+------------------------------------+
+3 rows in set (0.001 sec)
+
+MariaDB [ExampleDB]> select Department,MIX(Salary) "Highest Salary in each Department" From Employees group by Department;
+ERROR 1305 (42000): FUNCTION exampledb.MIX does not exist
+MariaDB [ExampleDB]> select Department,MAX(Salary) "Highest Salary in each Department" From Employees group by Department;
++------------+-----------------------------------+
+| Department | Highest Salary in each Department |
++------------+-----------------------------------+
+| Finance    |                          58000.00 |
+| HR         |                          60000.00 |
+| IT         |                          65000.00 |
++------------+-----------------------------------+
+3 rows in set (0.001 sec)
+
+MariaDB [ExampleDB]> select Department,MIN(Salary) "Lowest Salary in each Department" From Employees group by Department;
++------------+----------------------------------+
+| Department | Lowest Salary in each Department |
++------------+----------------------------------+
+| Finance    |                         55000.00 |
+| HR         |                         52000.00 |
+| IT         |                         50000.00 |
++------------+----------------------------------+
+3 rows in set (0.001 sec)
+
+MariaDB [ExampleDB]> select * from Employees;
++------------+-----------+----------+------------+----------+------------+
+| EmployeeID | FirstName | LastName | Department | Salary   | HireDate   |
++------------+-----------+----------+------------+----------+------------+
+|          1 | Ammad     | Ahmad    | IT         | 50000.00 | 2020-01-16 |
+|          2 | Ahmad     | Shehzad  | HR         | 60000.00 | 2019-03-31 |
+|          3 | Wali      | Khan     | Finance    | 55000.00 | 2021-04-30 |
+|          4 | Moiz      | Ahmad    | IT         | 65000.00 | 2018-11-05 |
+|          5 | Sudais    | Khan     | HR         | 52000.00 | 2022-02-10 |
+|          6 | Hasnian   | Khan     | Finance    | 58000.00 | 2020-09-12 |
++------------+-----------+----------+------------+----------+------------+
+6 rows in set (0.001 sec)
+
+MariaDB [ExampleDB]> select Year(hireDate) as hire_Year,count(*) as Num_Employess from Employees group by Year(hireDate) order by HireDate;
++-----------+---------------+
+| hire_Year | Num_Employess |
++-----------+---------------+
+|      2018 |             1 |
+|      2019 |             1 |
+|      2020 |             2 |
+|      2021 |             1 |
+|      2022 |             1 |
++-----------+---------------+
+5 rows in set (0.001 sec)
+
+MariaDB [ExampleDB]> select Department,SUM(Salary) "Total Salary for Each Department" MAX(Salary) From Employees group by Department;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'MAX(Salary) From Employees group by Department' at line 1
+MariaDB [ExampleDB]> select Department,SUM(Salary) "Expenditure for Each Department", MAX(Salary) From Employees group by Department;
++------------+---------------------------------+-------------+
+| Department | Expenditure for Each Department | MAX(Salary) |
++------------+---------------------------------+-------------+
+| Finance    |                       113000.00 |    58000.00 |
+| HR         |                       112000.00 |    60000.00 |
+| IT         |                       115000.00 |    65000.00 |
++------------+---------------------------------+-------------+
+3 rows in set (0.001 sec)
+
+MariaDB [ExampleDB]> select Department,SUM(Salary) as Total_expenditure From Employees group by Department order by Total_expenditure Limit 1;
++------------+-------------------+
+| Department | Total_expenditure |
++------------+-------------------+
+| HR         |         112000.00 |
++------------+-------------------+
+1 row in set (0.001 sec)
+
+MariaDB [ExampleDB]> select Department,SUM(Salary) as Total_expenditure From Employees group by Department order by Total_expenditure Limit 1 DESC;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'DESC' at line 1
+MariaDB [ExampleDB]> select Department,SUM(Salary) as Total_expenditure From Employees group by Department order by Total_expenditure DESC Limit 1;
++------------+-------------------+
+| Department | Total_expenditure |
++------------+-------------------+
+| IT         |         115000.00 |
++------------+-------------------+
+1 row in set (0.001 sec)
+
+MariaDB [ExampleDB]> select Department,count(*) as Num_Employess from Employees group by Department order by Department DESC Limit 1;
++------------+---------------+
+| Department | Num_Employess |
++------------+---------------+
+| IT         |             2 |
++------------+---------------+
+1 row in set (0.001 sec)
+
+MariaDB [ExampleDB]> select AVG(Salary) as Average_salary_2020 From Employees where Year(HireDate)=2020;
++---------------------+
+| Average_salary_2020 |
++---------------------+
+|        54000.000000 |
++---------------------+
+1 row in set (0.001 sec)
+
+MariaDB [ExampleDB]> select Department,AVG(Salary) as Average_salary_2020 From Employees where Year(HireDate)=2020 group by Department;
++------------+---------------------+
+| Department | Average_salary_2020 |
++------------+---------------------+
+| Finance    |        58000.000000 |
+| IT         |        50000.000000 |
++------------+---------------------+
+2 rows in set (0.001 sec)
+
+MariaDB [ExampleDB]> select count(*) as Employees_Hired_in_IT From Employees where Department="IT";
++-----------------------+
+| Employees_Hired_in_IT |
++-----------------------+
+|                     2 |
++-----------------------+
+1 row in set (0.001 sec)
+
+MariaDB [ExampleDB]> select MAX(Salary) as Highest_salary_HR From Employees where Department="HR";
++-------------------+
+| Highest_salary_HR |
++-------------------+
+|          60000.00 |
++-------------------+
+1 row in set (0.001 sec)
+
+MariaDB [ExampleDB]> select count(*) as Most_employeesHired_2020 From Empolyees where year(HireDate)=2020;
+ERROR 1146 (42S02): Table 'exampledb.empolyees' doesn't exist
+MariaDB [ExampleDB]> select count(*) as Most_employeesHired_2020 From Employees where year(HireDate)=2020;
++--------------------------+
+| Most_employeesHired_2020 |
++--------------------------+
+|                        2 |
++--------------------------+
+1 row in set (0.001 sec)
