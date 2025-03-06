@@ -1,0 +1,322 @@
+Microsoft Windows [Version 10.0.19045.5487]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Acer>mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 10
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| exampledb          |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| practice           |
+| test               |
++--------------------+
+8 rows in set (0.008 sec)
+
+MariaDB [(none)]> use exampledb;
+Database changed
+MariaDB [exampledb]> CREATE TABLE sales (
+    ->  sale_id INT PRIMARY KEY,
+    ->  product_name VARCHAR(100),
+    ->  sale_date DATE,
+    ->  quantity INT,
+    ->  price DECIMAL(10, 2)
+    -> );
+Query OK, 0 rows affected (0.031 sec)
+
+MariaDB [exampledb]> INSERT INTO sales (sale_id, product_name, sale_date, quantity, price) VALUES
+    -> (1, 'Laptop', '2023-10-01', 2, 1200.00),
+    -> (2, 'Smartphone', '2023-10-02', 5, 800.00),
+    -> (3, 'Tablet', '2023-10-03', 3, 600.00),
+    -> (4, 'Laptop', '2023-10-04', 1, 1200.00),
+    -> (5, 'Smartphone', '2023-10-05', 4, 800.00),
+    -> (6, 'Tablet', '2023-09-25', 2, 600.00),
+    -> (7, 'Laptop', '2023-09-20', 3, 1200.00),
+    -> (8, 'Smartphone', '2023-09-15', 6, 800.00);
+Query OK, 8 rows affected (0.010 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+MariaDB [exampledb]> select * from sales;
++---------+--------------+------------+----------+---------+
+| sale_id | product_name | sale_date  | quantity | price   |
++---------+--------------+------------+----------+---------+
+|       1 | Laptop       | 2023-10-01 |        2 | 1200.00 |
+|       2 | Smartphone   | 2023-10-02 |        5 |  800.00 |
+|       3 | Tablet       | 2023-10-03 |        3 |  600.00 |
+|       4 | Laptop       | 2023-10-04 |        1 | 1200.00 |
+|       5 | Smartphone   | 2023-10-05 |        4 |  800.00 |
+|       6 | Tablet       | 2023-09-25 |        2 |  600.00 |
+|       7 | Laptop       | 2023-09-20 |        3 | 1200.00 |
+|       8 | Smartphone   | 2023-09-15 |        6 |  800.00 |
++---------+--------------+------------+----------+---------+
+8 rows in set (0.001 sec)
+
+MariaDB [exampledb]> select sale_date,DATE_FORMAT(sale_date,"%W/%M %d/%Y") FROM sales;
++------------+--------------------------------------+
+| sale_date  | DATE_FORMAT(sale_date,"%W/%M %d/%Y") |
++------------+--------------------------------------+
+| 2023-10-01 | Sunday/October 01/2023               |
+| 2023-10-02 | Monday/October 02/2023               |
+| 2023-10-03 | Tuesday/October 03/2023              |
+| 2023-10-04 | Wednesday/October 04/2023            |
+| 2023-10-05 | Thursday/October 05/2023             |
+| 2023-09-25 | Monday/September 25/2023             |
+| 2023-09-20 | Wednesday/September 29/2023          |
+| 2023-09-15 | Friday/September 15/2023             |
++------------+--------------------------------------+
+8 rows in set (0.001 sec)
+
+MariaDB [exampledb]> select sale_date,DATE_FORMAT(sale_date,"%W/%M %m/%Y"),DATE_ADD(sale_date, INTERVAL 7 DAY) FROM sales;
++------------+--------------------------------------+-------------------------------------+
+| sale_date  | DATE_FORMAT(sale_date,"%W/%M %d/%Y") | DATE_ADD(sale_date, INTERVAL 7 DAY) |
++------------+--------------------------------------+-------------------------------------+
+| 2023-10-01 | Sunday/October 01/2023               | 2023-10-08                          |
+| 2023-10-02 | Monday/October 02/2023               | 2023-10-09                          |
+| 2023-10-03 | Tuesday/October 03/2023              | 2023-10-10                          |
+| 2023-10-04 | Wednesday/October 04/2023            | 2023-10-11                          |
+| 2023-10-05 | Thursday/October 05/2023             | 2023-10-12                          |
+| 2023-09-25 | Monday/September 25/2023             | 2023-10-02                          |
+| 2023-09-20 | Wednesday/September 29/2023          | 2023-09-27                          |
+| 2023-09-15 | Friday/September 29/2023             | 2023-09-22                          |
++------------+--------------------------------------+-------------------------------------+
+8 rows in set (0.001 sec)
+
+MariaDB [exampledb]> select sale_date,DATE_FORMAT(sale_date,DATE_ADD(sale_date, INTERVAL 7 DAY),"%W/%M %m/%Y") as "Delivery Date" FROM sales;
++------------+---------------+
+| sale_date  | Delivery Date |
++------------+---------------+
+| 2023-10-01 | 2023-10-08    |
+| 2023-10-02 | 2023-10-09    |
+| 2023-10-03 | 2023-10-10    |
+| 2023-10-04 | 2023-10-11    |
+| 2023-10-05 | 2023-10-12    |
+| 2023-09-25 | 2023-10-02    |
+| 2023-09-20 | 2023-09-27    |
+| 2023-09-15 | 2023-09-22    |
++------------+---------------+
+8 rows in set, 1 warning (0.001 sec)
+
+
+MariaDB [exampledb]> select curdate() from dual;
++------------+
+| curdate()  |
++------------+
+| 2025-03-06 |
++------------+
+1 row in set (0.000 sec)
+
+
+MariaDB [exampledb]> SELECT * FROM sales where sale_date >=DATE(DATE_SUB(CURDATE(), INTERVAL 30 DAY));
+Empty set (0.001 sec)
+
+MariaDB [exampledb]> SELECT * FROM sales where sale_date >=DATE_SUB(CURDATE(), INTERVAL 30 DAY);
+Empty set (0.001 sec)
+
+MariaDB [exampledb]> SELECT DATE_SUB(CURDATE(), INTERVAL 30 DAY);
++--------------------------------------+
+| DATE_SUB(CURDATE(), INTERVAL 30 DAY) |
++--------------------------------------+
+| 2025-02-04                           |
++--------------------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [exampledb]> SELECT * FROM sales where sale_date >=DATE_SUB("23-11-03", INTERVAL 30 DAY);
++---------+--------------+------------+----------+---------+
+| sale_id | product_name | sale_date  | quantity | price   |
++---------+--------------+------------+----------+---------+
+|       4 | Laptop       | 2023-10-04 |        1 | 1200.00 |
+|       5 | Smartphone   | 2023-10-05 |        4 |  800.00 |
++---------+--------------+------------+----------+---------+
+2 rows in set (0.001 sec)
+
+MariaDB [exampledb]> SELECT * FROM sales where sale_date <=DATE(DATE_SUB(CURDATE(), INTERVAL 30 DAY));
++---------+--------------+------------+----------+---------+
+| sale_id | product_name | sale_date  | quantity | price   |
++---------+--------------+------------+----------+---------+
+|       1 | Laptop       | 2023-10-01 |        2 | 1200.00 |
+|       2 | Smartphone   | 2023-10-02 |        5 |  800.00 |
+|       3 | Tablet       | 2023-10-03 |        3 |  600.00 |
+|       4 | Laptop       | 2023-10-04 |        1 | 1200.00 |
+|       5 | Smartphone   | 2023-10-05 |        4 |  800.00 |
+|       6 | Tablet       | 2023-09-25 |        2 |  600.00 |
+|       7 | Laptop       | 2023-09-20 |        3 | 1200.00 |
+|       8 | Smartphone   | 2023-09-15 |        6 |  800.00 |
++---------+--------------+------------+----------+---------+
+8 rows in set (0.001 sec)
+
+MariaDB [exampledb]> SELECT * FROM sales where sale_date <=DATE(DATE_SUB(CURDATE(), INTERVAL 24 MONTH));
+Empty set (0.007 sec)
+
+MariaDB [exampledb]> SELECT * FROM sales where sale_date <=DATE(DATE_SUB(CURDATE(), INTERVAL 18 MONTH));
+Empty set (0.000 sec)
+
+MariaDB [exampledb]> SELECT * FROM sales where sale_date >=DATE_SUB("23-11-03", INTERVAL 30 DAY);
++---------+--------------+------------+----------+---------+
+| sale_id | product_name | sale_date  | quantity | price   |
++---------+--------------+------------+----------+---------+
+|       4 | Laptop       | 2023-10-04 |        1 | 1200.00 |
+|       5 | Smartphone   | 2023-10-05 |        4 |  800.00 |
++---------+--------------+------------+----------+---------+
+2 rows in set (0.000 sec)
+
+MariaDB [exampledb]> select
+    -> *from sales;
++---------+--------------+------------+----------+---------+
+| sale_id | product_name | sale_date  | quantity | price   |
++---------+--------------+------------+----------+---------+
+|       1 | Laptop       | 2023-10-01 |        2 | 1200.00 |
+|       2 | Smartphone   | 2023-10-02 |        5 |  800.00 |
+|       3 | Tablet       | 2023-10-03 |        3 |  600.00 |
+|       4 | Laptop       | 2023-10-04 |        1 | 1200.00 |
+|       5 | Smartphone   | 2023-10-05 |        4 |  800.00 |
+|       6 | Tablet       | 2023-09-25 |        2 |  600.00 |
+|       7 | Laptop       | 2023-09-20 |        3 | 1200.00 |
+|       8 | Smartphone   | 2023-09-15 |        6 |  800.00 |
++---------+--------------+------------+----------+---------+
+8 rows in set (0.001 sec)
+
+MariaDB [exampledb]> select quantity*price from sales;
++----------------+
+| quantity*price |
++----------------+
+|        2400.00 |
+|        4000.00 |
+|        1800.00 |
+|        1200.00 |
+|        3200.00 |
+|        1200.00 |
+|        3600.00 |
+|        4800.00 |
++----------------+
+8 rows in set (0.000 sec)
+
+MariaDB [exampledb]> select quantity,price, (quantity*price) as Total_Reveue from sales;
++----------+---------+--------------+
+| quantity | price   | Total_Reveue |
++----------+---------+--------------+
+|        2 | 1200.00 |      2400.00 |
+|        5 |  800.00 |      4000.00 |
+|        3 |  600.00 |      1800.00 |
+|        1 | 1200.00 |      1200.00 |
+|        4 |  800.00 |      3200.00 |
+|        2 |  600.00 |      1200.00 |
+|        3 | 1200.00 |      3600.00 |
+|        6 |  800.00 |      4800.00 |
++----------+---------+--------------+
+8 rows in set (0.001 sec)
+
+MariaDB [exampledb]> select quantity,price, (quantity*price) as Total_Reveue from sales Group by product_name With ROLLUP;
++----------+---------+--------------+
+| quantity | price   | Total_Reveue |
++----------+---------+--------------+
+|        2 | 1200.00 |      2400.00 |
+|        5 |  800.00 |      4000.00 |
+|        3 |  600.00 |      1800.00 |
+|        3 |  600.00 |      1800.00 |
++----------+---------+--------------+
+4 rows in set (0.001 sec)
+
+MariaDB [exampledb]> select product_name,quantity,price, (quantity*price) as Total_Reveue from sales Group by product_name,price With ROLLUP;
++--------------+----------+---------+--------------+
+| product_name | quantity | price   | Total_Reveue |
++--------------+----------+---------+--------------+
+| Laptop       |        2 | 1200.00 |      6000.00 |
+| Laptop       |        2 |    NULL |         NULL |
+| Smartphone   |        5 |  800.00 |      2400.00 |
+| Smartphone   |        5 |    NULL |         NULL |
+| Tablet       |        3 |  600.00 |      1200.00 |
+| Tablet       |        3 |    NULL |         NULL |
+| NULL         |        3 |    NULL |         NULL |
++--------------+----------+---------+--------------+
+7 rows in set (0.001 sec)
+
+MariaDB [exampledb]> select sum(quantity*price) as Total_Reveue from sales Group by product_name With ROLLUP;
++--------------+
+| Total_Reveue |
++--------------+
+|      7200.00 |
+|     12000.00 |
+|      3000.00 |
+|     22200.00 |
++--------------+
+4 rows in set (0.001 sec)
+
+MariaDB [exampledb]> select product_name, sum(quantity*price) as Total_Reveue from sales Group by product_name With ROLLUP;
++--------------+--------------+
+| product_name | Total_Reveue |
++--------------+--------------+
+| Laptop       |      7200.00 |
+| Smartphone   |     12000.00 |
+| Tablet       |      3000.00 |
+| NULL         |     22200.00 |
++--------------+--------------+
+4 rows in set (0.001 sec)
+
+MariaDB [exampledb]> select * from sales;
++---------+--------------+------------+----------+---------+
+| sale_id | product_name | sale_date  | quantity | price   |
++---------+--------------+------------+----------+---------+
+|       1 | Laptop       | 2023-10-01 |        2 | 1200.00 |
+|       2 | Smartphone   | 2023-10-02 |        5 |  800.00 |
+|       3 | Tablet       | 2023-10-03 |        3 |  600.00 |
+|       4 | Laptop       | 2023-10-04 |        1 | 1200.00 |
+|       5 | Smartphone   | 2023-10-05 |        4 |  800.00 |
+|       6 | Tablet       | 2023-09-25 |        2 |  600.00 |
+|       7 | Laptop       | 2023-09-20 |        3 | 1200.00 |
+|       8 | Smartphone   | 2023-09-15 |        6 |  800.00 |
++---------+--------------+------------+----------+---------+
+8 rows in set (0.001 sec)
+
+MariaDB [exampledb]> select quantity*price from sales;
++----------------+
+| quantity*price |
++----------------+
+|        2400.00 |
+|        4000.00 |
+|        1800.00 |
+|        1200.00 |
+|        3200.00 |
+|        1200.00 |
+|        3600.00 |
+|        4800.00 |
++----------------+
+8 rows in set (0.001 sec)
+
+MariaDB [exampledb]> select sum(quantity*price) as total_revenue from sales;
++---------------+
+| total_revenue |
++---------------+
+|      22200.00 |
++---------------+
+1 row in set (0.000 sec)
+
+MariaDB [exampledb]> select product_name, sum(quantity*price) as Total_Reveue from sales Group by product_name Having sum(quantity*price)>3000;
++--------------+--------------+
+| product_name | Total_Reveue |
++--------------+--------------+
+| Laptop       |      7200.00 |
+| Smartphone   |     12000.00 |
++--------------+--------------+
+2 rows in set (0.001 sec)
+
+MariaDB [exampledb]> select product_name, sum(quantity*price) as "Total Revenue of Products exceeding 3000" from sales Group by product_name Having sum(quantity*price)>3000;
++--------------+------------------------------------------+
+| product_name | Total Revenue of Products exceeding 3000 |
++--------------+------------------------------------------+
+| Laptop       |                                  7200.00 |
+| Smartphone   |                                 12000.00 |
++--------------+------------------------------------------+
+2 rows in set (0.001 sec)
