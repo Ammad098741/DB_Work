@@ -1,0 +1,220 @@
+Microsoft Windows [Version 10.0.19045.5608]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Acer>mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 9
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| exampledb          |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| practice           |
+| test               |
+| uni                |
++--------------------+
+9 rows in set (0.001 sec)
+
+MariaDB [(none)]> use college;
+Database changed
+MariaDB [college]> show tables;
++-------------------+
+| Tables_in_college |
++-------------------+
+| department        |
+| students          |
++-------------------+
+2 rows in set (0.001 sec)
+
+MariaDB [college]> select * from students;
++----+---------------+------------+-------------+------------+----------+----------+-------+
+| ID | name          | FatherName | Phone       | Department | Semester | Address  | Email |
++----+---------------+------------+-------------+------------+----------+----------+-------+
+|  1 | Ammad Ahmad   | Ayaz Ali   | 03179921802 | 2          | IV       | Nowshera | NULL  |
+|  2 | Ahmad Shehzad | Falak Sher | 01234546534 | 2          | IV       | Nowshera | NULL  |
+|  4 | Faisal        | Noor Islam | 04345876534 | 2          | IV       | Mardan   | NULL  |
+|  5 | Sara          | Ahmad Ali  | 03467567431 | 2          | IV       | Peshawar | NULL  |
+|  6 | Umair         | Uzair      | 43872987492 | 1          | IV       | Lahore   | NULL  |
+|  7 | Hania         | Ihsan      | 46387658393 | 1          | VII      | Karachi  | NULL  |
+|  8 | Zubair        | Azhar      | 56757844853 | 1          | IV       | Sawabi   | NULL  |
++----+---------------+------------+-------------+------------+----------+----------+-------+
+7 rows in set (0.000 sec)
+
+MariaDB [college]> select * from department;
++----+------------------+
+| Id | Name             |
++----+------------------+
+|  1 | Computer Science |
+|  2 | Economics        |
++----+------------------+
+2 rows in set (0.000 sec)
+
+MariaDB [college]> update student Set Dpartment=1 wherer Department=2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'wherer Department=2' at line 1
+MariaDB [college]> update student Set Dpartment=1 where Department=2;
+ERROR 1146 (42S02): Table 'college.student' doesn't exist
+MariaDB [college]> update students Set Dpartment=1 where Department=2;
+ERROR 1054 (42S22): Unknown column 'Dpartment' in 'field list'
+MariaDB [college]> update students Set Department=1 where Department=2;
+Query OK, 4 rows affected (0.009 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+MariaDB [college]> update students Set Department=2 where Department=1;
+Query OK, 7 rows affected (0.006 sec)
+Rows matched: 7  Changed: 7  Warnings: 0
+
+MariaDB [college]> select * from department;
++----+------------------+
+| Id | Name             |
++----+------------------+
+|  1 | Computer Science |
+|  2 | Economics        |
++----+------------------+
+2 rows in set (0.001 sec)
+
+MariaDB [college]> select * from students;
++----+---------------+------------+-------------+------------+----------+----------+-------+
+| ID | name          | FatherName | Phone       | Department | Semester | Address  | Email |
++----+---------------+------------+-------------+------------+----------+----------+-------+
+|  1 | Ammad Ahmad   | Ayaz Ali   | 03179921802 | 2          | IV       | Nowshera | NULL  |
+|  2 | Ahmad Shehzad | Falak Sher | 01234546534 | 2          | IV       | Nowshera | NULL  |
+|  4 | Faisal        | Noor Islam | 04345876534 | 2          | IV       | Mardan   | NULL  |
+|  5 | Sara          | Ahmad Ali  | 03467567431 | 2          | IV       | Peshawar | NULL  |
+|  6 | Umair         | Uzair      | 43872987492 | 2          | IV       | Lahore   | NULL  |
+|  7 | Hania         | Ihsan      | 46387658393 | 2          | VII      | Karachi  | NULL  |
+|  8 | Zubair        | Azhar      | 56757844853 | 2          | IV       | Sawabi   | NULL  |
++----+---------------+------------+-------------+------------+----------+----------+-------+
+7 rows in set (0.001 sec)
+
+MariaDB [college]> update student Set Dpartment=1 wherer id>5;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'wherer id>5' at line 1
+MariaDB [college]> update student Set Dpartment=1 where id>5;
+ERROR 1146 (42S02): Table 'college.student' doesn't exist
+MariaDB [college]> update student Set Department=1 where id>5;
+ERROR 1146 (42S02): Table 'college.student' doesn't exist
+MariaDB [college]> update students Set Department=1 where id>5;
+Query OK, 3 rows affected (0.010 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+MariaDB [college]> select * from student ;
+ERROR 1146 (42S02): Table 'college.student' doesn't exist
+MariaDB [college]> select * from students;
++----+---------------+------------+-------------+------------+----------+----------+-------+
+| ID | name          | FatherName | Phone       | Department | Semester | Address  | Email |
++----+---------------+------------+-------------+------------+----------+----------+-------+
+|  1 | Ammad Ahmad   | Ayaz Ali   | 03179921802 | 2          | IV       | Nowshera | NULL  |
+|  2 | Ahmad Shehzad | Falak Sher | 01234546534 | 2          | IV       | Nowshera | NULL  |
+|  4 | Faisal        | Noor Islam | 04345876534 | 2          | IV       | Mardan   | NULL  |
+|  5 | Sara          | Ahmad Ali  | 03467567431 | 2          | IV       | Peshawar | NULL  |
+|  6 | Umair         | Uzair      | 43872987492 | 1          | IV       | Lahore   | NULL  |
+|  7 | Hania         | Ihsan      | 46387658393 | 1          | VII      | Karachi  | NULL  |
+|  8 | Zubair        | Azhar      | 56757844853 | 1          | IV       | Sawabi   | NULL  |
++----+---------------+------------+-------------+------------+----------+----------+-------+
+7 rows in set (0.001 sec)
+
+MariaDB [college]> select * from department;
++----+------------------+
+| Id | Name             |
++----+------------------+
+|  1 | Computer Science |
+|  2 | Economics        |
++----+------------------+
+2 rows in set (0.001 sec)
+
+MariaDB [college]> update students Set Department=1 where id<6;
+Query OK, 4 rows affected (0.009 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+MariaDB [college]> update students Set Department=2 where id>5;
+Query OK, 3 rows affected (0.009 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+MariaDB [college]> select * from students;
++----+---------------+------------+-------------+------------+----------+----------+-------+
+| ID | name          | FatherName | Phone       | Department | Semester | Address  | Email |
++----+---------------+------------+-------------+------------+----------+----------+-------+
+|  1 | Ammad Ahmad   | Ayaz Ali   | 03179921802 | 1          | IV       | Nowshera | NULL  |
+|  2 | Ahmad Shehzad | Falak Sher | 01234546534 | 1          | IV       | Nowshera | NULL  |
+|  4 | Faisal        | Noor Islam | 04345876534 | 1          | IV       | Mardan   | NULL  |
+|  5 | Sara          | Ahmad Ali  | 03467567431 | 1          | IV       | Peshawar | NULL  |
+|  6 | Umair         | Uzair      | 43872987492 | 2          | IV       | Lahore   | NULL  |
+|  7 | Hania         | Ihsan      | 46387658393 | 2          | VII      | Karachi  | NULL  |
+|  8 | Zubair        | Azhar      | 56757844853 | 2          | IV       | Sawabi   | NULL  |
++----+---------------+------------+-------------+------------+----------+----------+-------+
+7 rows in set (0.013 sec)
+
+MariaDB [college]> select * from students st inner join department dept on st.Departmnt=dept.Id;
+ERROR 1054 (42S22): Unknown column 'st.Departmnt' in 'on clause'
+MariaDB [college]> select * from students st inner join department dept on st.Department=dept.Id;
++----+---------------+------------+-------------+------------+----------+----------+-------+----+------------------+
+| ID | name          | FatherName | Phone       | Department | Semester | Address  | Email | Id | Name             |
++----+---------------+------------+-------------+------------+----------+----------+-------+----+------------------+
+|  1 | Ammad Ahmad   | Ayaz Ali   | 03179921802 | 1          | IV       | Nowshera | NULL  |  1 | Computer Science |
+|  2 | Ahmad Shehzad | Falak Sher | 01234546534 | 1          | IV       | Nowshera | NULL  |  1 | Computer Science |
+|  4 | Faisal        | Noor Islam | 04345876534 | 1          | IV       | Mardan   | NULL  |  1 | Computer Science |
+|  5 | Sara          | Ahmad Ali  | 03467567431 | 1          | IV       | Peshawar | NULL  |  1 | Computer Science |
+|  6 | Umair         | Uzair      | 43872987492 | 2          | IV       | Lahore   | NULL  |  2 | Economics        |
+|  7 | Hania         | Ihsan      | 46387658393 | 2          | VII      | Karachi  | NULL  |  2 | Economics        |
+|  8 | Zubair        | Azhar      | 56757844853 | 2          | IV       | Sawabi   | NULL  |  2 | Economics        |
++----+---------------+------------+-------------+------------+----------+----------+-------+----+------------------+
+7 rows in set (0.002 sec)
+
+MariaDB [college]> select st.ID,st.name,FatherName,dept.name from students st inner join department dept on st.Department=dept.Id;
++----+---------------+------------+------------------+
+| ID | name          | FatherName | name             |
++----+---------------+------------+------------------+
+|  1 | Ammad Ahmad   | Ayaz Ali   | Computer Science |
+|  2 | Ahmad Shehzad | Falak Sher | Computer Science |
+|  4 | Faisal        | Noor Islam | Computer Science |
+|  5 | Sara          | Ahmad Ali  | Computer Science |
+|  6 | Umair         | Uzair      | Economics        |
+|  7 | Hania         | Ihsan      | Economics        |
+|  8 | Zubair        | Azhar      | Economics        |
++----+---------------+------------+------------------+
+7 rows in set (0.007 sec)
+
+MariaDB [college]> select st.ID,st.name,FatherName,dept.name from students st inner join department dept on st.Department=dept.Id where dept.name="computer science";
++----+---------------+------------+------------------+
+| ID | name          | FatherName | name             |
++----+---------------+------------+------------------+
+|  1 | Ammad Ahmad   | Ayaz Ali   | Computer Science |
+|  2 | Ahmad Shehzad | Falak Sher | Computer Science |
+|  4 | Faisal        | Noor Islam | Computer Science |
+|  5 | Sara          | Ahmad Ali  | Computer Science |
++----+---------------+------------+------------------+
+4 rows in set (0.008 sec)
+
+MariaDB [college]> select st.ID,st.name as "Student Name",FatherName,dept.name as "Department" from students st inner join department dept on st.Department=dept.Id where dept.name="computer science";
++----+---------------+------------+------------------+
+| ID | Student Name  | FatherName | Department       |
++----+---------------+------------+------------------+
+|  1 | Ammad Ahmad   | Ayaz Ali   | Computer Science |
+|  2 | Ahmad Shehzad | Falak Sher | Computer Science |
+|  4 | Faisal        | Noor Islam | Computer Science |
+|  5 | Sara          | Ahmad Ali  | Computer Science |
++----+---------------+------------+------------------+
+4 rows in set (0.007 sec)
+
+MariaDB [college]> select st.ID,st.name as "Student Name",FatherName,dept.name as "Department" from students st inner join department dept on st.Department=dept.Id where dept.name="Economics";
++----+--------------+------------+------------+
+| ID | Student Name | FatherName | Department |
++----+--------------+------------+------------+
+|  6 | Umair        | Uzair      | Economics  |
+|  7 | Hania        | Ihsan      | Economics  |
+|  8 | Zubair       | Azhar      | Economics  |
++----+--------------+------------+------------+
+3 rows in set (0.001 sec)
+
+MariaDB [college]>
